@@ -16,7 +16,7 @@ class StreamDelete extends React.Component {
     this.props.deleteStream(this.props.match.params.id);
   };
 
-  renderModal() {
+  renderModal = () => {
     const actions = (
       <>
         <button className="ui red button inverted" onClick={this.onDeleteClick}>
@@ -38,18 +38,20 @@ class StreamDelete extends React.Component {
         />
       </div>
     );
-  }
+  };
 
   render() {
-    if (this.props.isSignedIn === null) {
-      return <Loader />;
-    } else if (
-      this.props.stream &&
-      this.props.stream.userId !== this.props.currentUserId
-    ) {
-      redirectToNoAccess();
+    if (this.props.isSignedIn !== null) {
+      if (
+        this.props.stream &&
+        this.props.stream.userId === this.props.currentUserId
+      ) {
+        return this.renderModal();
+      } else {
+        redirectToNoAccess();
+      }
     }
-    return this.renderModal();
+    return <Loader />;
   }
 }
 
